@@ -22,7 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class SchedulerActivity extends ActionBarActivity {
+public class ConfirmationActivity extends ActionBarActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -37,7 +37,7 @@ public class SchedulerActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_scheduler);
+        setContentView(R.layout.activity_confirmation);
         context = getApplicationContext();
         mRecyclerView = (RecyclerView) findViewById(R.id.cardList);
 
@@ -46,17 +46,17 @@ public class SchedulerActivity extends ActionBarActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.tool_bar);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME, ActionBar.DISPLAY_SHOW_CUSTOM);
-        actionBar.setTitle("Pick a Time");
-        actionBar.setSubtitle("These are your friends' availabilities");
+        actionBar.setTitle("KickIt");
+        actionBar.setSubtitle(Integer.toString(calendarDate));
 
-        ImageButton actionButton = (ImageButton) findViewById(R.id.action_button);
-        actionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ConfirmationActivity.class);
-                startActivity(intent);
-            }
-        });
+//        ImageButton actionButton = (ImageButton) findViewById(R.id.action_button);
+//        actionButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(context, InviteFriendsActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         Log.d("MainActivity", "ab: " + actionBar);
         Log.d("MainActivity", "abTitle: " + actionBar.getTitle());
@@ -73,14 +73,11 @@ public class SchedulerActivity extends ActionBarActivity {
 
         try {
             card1.put("time", "Now");
-
-            card2.put("time", "Never");
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         cardData.put(card1);
-        cardData.put(card2);
 
         Log.d("MainActivity", "cardData: " + cardData.toString());
 
