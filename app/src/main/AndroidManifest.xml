@@ -20,6 +20,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".InviteFriendsActivity"
+            android:label="InviteFriends" >
+            <intent-filter>
+                <action android:name="com.cliqqit.kickit" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            </activity>
     </application>
 
 </manifest>

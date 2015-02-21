@@ -1,29 +1,21 @@
 package com.cliqqit.kickit;
 
 //import android.app.ActionBar;
-import android.support.annotation.NonNull;
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewGroup;
+import android.view.View;
 import android.widget.ImageButton;
 
 import java.util.Calendar;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-
-import com.cliqqit.kickit.CardInfo;
-import com.cliqqit.kickit.CardAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,27 +32,31 @@ public class MainActivity extends ActionBarActivity {
     private JSONObject card1 = new JSONObject();
     private JSONObject card2 = new JSONObject();
     private JSONArray cardData = new JSONArray();
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context = getApplicationContext();
         mRecyclerView = (RecyclerView) findViewById(R.id.cardList);
-//        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
 
-//        toolbar.setTitle("KickIt");
         Calendar calendar = Calendar.getInstance();
         int calendarDate = calendar.get(calendar.DATE);
-//        toolbar.setSubtitle(Integer.toString(calendarDate));
-
-//        setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setCustomView(R.layout.tool_bar);
         actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME, ActionBar.DISPLAY_SHOW_CUSTOM);
         actionBar.setTitle("KickIt");
         actionBar.setSubtitle(Integer.toString(calendarDate));
 
-        ImageButton fabImageButton = (ImageButton) findViewById(R.id.action_button);
+        ImageButton actionButton = (ImageButton) findViewById(R.id.action_button);
+        actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, InviteFriendsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         Log.d("MainActivity", "ab: " + actionBar);
         Log.d("MainActivity", "abTitle: " + actionBar.getTitle());
