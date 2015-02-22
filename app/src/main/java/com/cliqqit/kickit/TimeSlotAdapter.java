@@ -12,11 +12,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+
 /**
  * Created by jdimaria on 2/21/15.
  */
 public class TimeSlotAdapter extends RecyclerView.Adapter<TimeSlotAdapter.TimeSlotViewHolder> {
-    private JSONArray timeSlotList;
+//    private JSONArray timeSlotList;
+    private HashMap<Integer, Object> timeSlotList = new HashMap<>();
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -34,7 +37,8 @@ public class TimeSlotAdapter extends RecyclerView.Adapter<TimeSlotAdapter.TimeSl
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public TimeSlotAdapter(JSONArray timeSlotList) {
+    public TimeSlotAdapter(
+            HashMap<Integer, Object> timeSlotList) {
         this.timeSlotList = timeSlotList;
     }
 
@@ -55,7 +59,7 @@ public class TimeSlotAdapter extends RecyclerView.Adapter<TimeSlotAdapter.TimeSl
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         try {
-            JSONObject timeSlot = timeSlotList.getJSONObject(position);
+            Object timeSlot = timeSlotList.get(position);
             TimeSlotViewHolder.vTime.setText(timeSlot.getString("time"));
         } catch (JSONException e) {
             e.printStackTrace();

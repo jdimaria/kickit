@@ -38,14 +38,17 @@ public class SchedulerActivity extends ActionBarActivity implements MeteorCallba
     //    private CardView mCardView;
 //    private CardAdapter mCardAdapter;
 //    private CardAdapter.CardViewHolder mCardViewHolder;
-    private JSONArray cardData = new JSONArray();
-    private JSONArray unavailable = new JSONArray();
+//    private JSONArray cardData = new JSONArray();
+//    private JSONArray unavailable = new JSONArray();
+    private HashMap<Integer, Object> cardData = new HashMap<>();
+    private HashMap<Object, Boolean> available = new HashMap<>();
     Context context;
     EditText eName;
     EditText eLoc;
     String name;
     String loc;
     String owner;
+    Integer i = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +79,7 @@ public class SchedulerActivity extends ActionBarActivity implements MeteorCallba
                         name = eName.getText().toString();
                         loc = eLoc.getText().toString();
                         owner = "Joe DiMaria";
-                        if (cardData.length() > 0) {
+                        if (cardData.size() > 0) {
                             insertData();
                         } else {
                             CharSequence text = "You need to select at least one time";
@@ -170,9 +173,19 @@ public class SchedulerActivity extends ActionBarActivity implements MeteorCallba
             if (jo.has("name")) {
 //                tv.append(jo.getString("name") + " at " + jo.getString("location") + "\n");
             } else {
-                cardData.put(jo.get("value"));
-
-
+                Object value = jo.get("value");
+                available.put(value, true);
+                cardData.put(i, available);
+                mAdapter = new TimeSlotAdapter(cardData);
+                mRecyclerView.setAdapter(mAdapter);
+                if (available.size() > 1) {
+                    for (int i = 0; i < available.size(); i++) {
+                        if (i > 0) {
+                            int diff = (available.getInt(i) - cardData.getInt(i - 1));
+                            unavailable.put(diff);
+                        }
+                    }
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
