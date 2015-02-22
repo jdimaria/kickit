@@ -20,10 +20,20 @@
         <!--layout="@layout/tool_bar"-->
         <!--/>-->
 
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/no_events"
+        android:visibility="visible"
+        android:textSize="18dp"
+        android:textAlignment="center"
+        android:text="Looks like you have a free day! Why not plan something?"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/cardList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         />
 
     <ImageButton

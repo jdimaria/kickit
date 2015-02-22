@@ -13,33 +13,67 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import im.delight.android.ddp.Meteor;
+import im.delight.android.ddp.MeteorCallback;
 
-public class MainActivity extends ActionBarActivity {
+
+public class MainActivity extends ActionBarActivity implements MeteorCallback {
+    public static Meteor mMeteor;
+    private TextView noEvents;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 //    private CardView mCardView;
 //    private CardAdapter mCardAdapter;
 //    private CardAdapter.CardViewHolder mCardViewHolder;
-    private JSONObject card1 = new JSONObject();
-    private JSONObject card2 = new JSONObject();
-    private JSONArray cardData = new JSONArray();
+//    private JSONObject card1 = new JSONObject();
+//    private JSONObject card2 = new JSONObject();
+//    private JSONArray cardData = new JSONArray();
+    public boolean eventsInMain = false;
     Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Bundle bundle = getIntent().getExtras();
         context = getApplicationContext();
+        noEvents = (TextView) findViewById(R.id.no_events);
         mRecyclerView = (RecyclerView) findViewById(R.id.cardList);
+
+//        if (bundle.getString("show_events") != null) {
+//            eventsInMain = true;
+//        } else {
+//            eventsInMain = false;
+//        }
+//        if (eventsInMain) {
+//            // Show events
+//            mRecyclerView.setVisibility(View.VISIBLE);
+//            noEvents.setVisibility(View.GONE);
+//        } else {
+//            // Hide events
+//            mRecyclerView.setVisibility(View.GONE);
+//            noEvents.setVisibility(View.VISIBLE);
+//        }
+
+
+        // create a new instance (protocol version in second parameter is optional)
+        mMeteor = new Meteor("ws://kickit.meteor.com/websocket");
+
+        // register the callback that will handle events and receive messages
+        mMeteor.setCallback(this);
 
         Calendar calendar = Calendar.getInstance();
         int calendarDate = calendar.get(calendar.DATE);
@@ -71,31 +105,31 @@ public class MainActivity extends ActionBarActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        try {
-            card1.put("name", "Hacking Poly");
-            card1.put("owner", "Joe");
-            card1.put("location", "Cal Poly");
-            card1.put("date", "Today");
-            card1.put("time", "Now");
-
-            card2.put("name", "Don't Hack Me Bro");
-            card2.put("owner", "Joe");
-            card2.put("location", "CPP");
-            card2.put("date", "Today");
-            card2.put("time", "Never");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        cardData.put(card1);
-        cardData.put(card2);
-
-        Log.d("MainActivity", "cardData: " + cardData.toString());
+//        try {
+//            card1.put("name", "Hacking Poly");
+//            card1.put("owner", "Joe");
+//            card1.put("location", "Cal Poly");
+//            card1.put("date", "Today");
+//            card1.put("time", "Now");
+//
+//            card2.put("name", "Don't Hack Me Bro");
+//            card2.put("owner", "Joe");
+//            card2.put("location", "CPP");
+//            card2.put("date", "Today");
+//            card2.put("time", "Never");
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        cardData.put(card1);
+//        cardData.put(card2);
+//
+//        Log.d("MainActivity", "cardData: " + cardData.toString());
 
         // specify an adapter (see also next example)
 
-        mAdapter = new CardAdapter(cardData);
-        mRecyclerView.setAdapter(mAdapter);
+//        mAdapter = new CardAdapter(cardData);
+//        mRecyclerView.setAdapter(mAdapter);
     }
 
 
@@ -121,4 +155,66 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onConnect() {
+        Log.d("Poop","Connected");
+    }
+
+    @Override
+    public void onDisconnect(int code, String reason) {
+        Log.d("Poop", "Disconnected: " + reason);
+    }
+
+    @Override
+    public void onDataAdded(String collectionName, String documentID, String fieldsJson) {
+        Log.d("Poop", "Data added to <"+collectionName+"> in document <"+documentID+">");
+        Log.d("Poop", "    Added: "+fieldsJson);
+//        TextView tv = (TextView)findViewById(R.id.hello_world);
+//        try {
+//            JSONObject jo = new JSONObject(fieldsJson);
+//            if (jo.has("name")) {
+//                tv.append(jo.getString("name") + " at " + jo.getString("location") + "\n");
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+    }
+
+    @Override
+    public void onDataChanged(String collectionName, String documentID, String updatedValuesJson, String removedValuesJson) {
+        Log.d("Poop", "Data changed in <"+collectionName+"> in document <"+documentID+">");
+        Log.d("Poop", "    Updated: "+updatedValuesJson);
+        Log.d("Poop", "    Removed: "+removedValuesJson);
+        // TODO Update value
+    }
+
+    @Override
+    public void onDataRemoved(String collectionName, String documentID) {
+        Log.d("Poop", "Data removed from <" + collectionName + "> in document <" + documentID + ">");
+        // TODO Remove value
+    }
+
+    @Override
+    public void onException(Exception e) {
+        Log.d("Poop", "Exception");
+        if (e != null) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mMeteor.disconnect();
+    }
+
+    public void insertData(View view) {
+        // insert data into a collection
+        Map<String, Object> mInsertValues = new HashMap<String, Object>();
+//        EditText et = (EditText)findViewById(R.id.event_name);
+//        mInsertValues.put("name", et.getText().toString());
+//        et = (EditText)findViewById(R.id.event_location);
+//        mInsertValues.put("location", et.getText().toString());
+//        mMeteor.insert("hangouts", mInsertValues);
+    }
 }
