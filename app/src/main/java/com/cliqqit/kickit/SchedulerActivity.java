@@ -172,6 +172,7 @@ public class SchedulerActivity extends ActionBarActivity implements MeteorCallba
             } else {
                 cardData.put(jo.get("value"));
 
+
             }
         } catch (JSONException e) {
             e.printStackTrace();
