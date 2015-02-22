@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:paddingLeft="16dp" android:paddingTop="16dp">
+
+    <TextView
+        android:id="@+id/recent_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/recent"/>
+
+    <RelativeLayout
+        android:id="@+id/recent_list"
+        android:layout_below="@+id/recent_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/recent_pic_1"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:onClick="imageSelectToggle"/>
+
+        <ImageView
+            android:id="@+id/recent_pic_2"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/recent_pic_1"
+            android:onClick="imageSelectToggle"/>
+
+        <ImageView
+            android:id="@+id/recent_pic_3"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/recent_pic_2"
+            android:onClick="imageSelectToggle"/>
+
+        <ImageView
+            android:id="@+id/recent_pic_4"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@+id/recent_pic_3"
+            android:onClick="imageSelectToggle"/>
+
+        </RelativeLayout>
+
+    <TextView
+        android:id="@+id/friends_header"
+        android:layout_below="@+id/recent_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/friends"/>
+
+    <RelativeLayout
+        android:id="@+id/friends_list"
+        android:layout_below="@+id/friends_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/friend_pic_1"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:onClick="imageSelectToggle"/>
+
+        <TextView
+            android:id="@+id/friend_name_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/friend_pic_1"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="26dp"
+            android:text="David Mangold"/>
+
+        <ImageView
+            android:id="@+id/friend_pic_2"
+            android:layout_below="@+id/friend_pic_1"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="10dp"
+            android:onClick="imageSelectToggle"/>
+
+        <TextView
+            android:id="@+id/friend_name_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/friend_pic_1"
+            android:layout_toRightOf="@+id/friend_pic_2"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="26dp"
+            android:text="Gordon Weeks"/>
+
+        </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/action_button"
+        android:layout_width="@dimen/fab_button_diameter"
+        android:layout_height="@dimen/fab_button_diameter"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/fab_button_margin_bottom"
+        android:layout_marginRight="@dimen/fab_button_margin_right"
+        android:background="@drawable/action_button"
+        android:src="@drawable/fab_ic_add"
+        android:tint="@android:color/black"/>
+
+</RelativeLayout>

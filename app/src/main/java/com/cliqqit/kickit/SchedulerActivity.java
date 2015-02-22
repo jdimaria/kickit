@@ -38,9 +38,8 @@ public class SchedulerActivity extends ActionBarActivity implements MeteorCallba
     //    private CardView mCardView;
 //    private CardAdapter mCardAdapter;
 //    private CardAdapter.CardViewHolder mCardViewHolder;
-    private JSONObject card1 = new JSONObject();
-    private JSONObject card2 = new JSONObject();
     private JSONArray cardData = new JSONArray();
+    private JSONArray unavailable = new JSONArray();
     Context context;
     EditText eName;
     EditText eLoc;
@@ -109,16 +108,16 @@ public class SchedulerActivity extends ActionBarActivity implements MeteorCallba
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        try {
-            card1.put("time", "Now");
-
-            card2.put("time", "Never");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        cardData.put(card1);
-        cardData.put(card2);
+//        try {
+//            card1.put("time", "Now");
+//
+//            card2.put("time", "Never");
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//
+//        cardData.put(card1);
+//        cardData.put(card2);
 
         Log.d("MainActivity", "cardData: " + cardData.toString());
 
@@ -171,6 +170,7 @@ public class SchedulerActivity extends ActionBarActivity implements MeteorCallba
             if (jo.has("name")) {
 //                tv.append(jo.getString("name") + " at " + jo.getString("location") + "\n");
             } else {
+                cardData.put(jo.get("value"));
 
             }
         } catch (JSONException e) {
